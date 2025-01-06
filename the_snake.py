@@ -170,7 +170,9 @@ def main():
         snake.draw()
         apple.draw()
 
-        pygame.display.set_caption(f'Змейка - Счёт: {score} Рекорд: {high_score}')
+        pygame.display.set_caption(
+            f'Змейка - Счёт: {score} Рекорд: {high_score}'
+        )
         pygame.display.update()
 
 
