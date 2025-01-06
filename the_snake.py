@@ -70,8 +70,10 @@ class Snake:
         """Движение змейки."""
         cur = self.get_head_position()
         x, y = self.direction
-        new_head = (((cur[0] + (x * GRID_SIZE)) % SCREEN_WIDTH),
-                    (cur[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
+        new_head = (
+            ((cur[0] + (x * GRID_SIZE)) % SCREEN_WIDTH),
+            (cur[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT
+        )
         self.positions.insert(0, new_head)
 
         if len(self.positions) > self.length:
