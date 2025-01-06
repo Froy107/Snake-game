@@ -1,45 +1,36 @@
 import pygame
-from random import choice, randint
+from random import randint
 
-# Константы для размеров поля и сетки:
+# Константы для размеров поля и сетки
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
 
-# Направления движения:
+# Направления движения
 UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 
-# Цвет фона - черный:
+# Цвета
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
-
-# Цвет границы ячейки
 BORDER_COLOR = (93, 216, 228)
-
-# Цвет яблока
 APPLE_COLOR = (255, 0, 0)
-
-# Цвет змейки
 SNAKE_COLOR = (0, 255, 0)
 
-# Скорость движения змейки:
+# Скорость движения змейки
 SPEED = 10
 
-# Настройка игрового окна:
+# Настройка игрового окна
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-
-# Заголовок окна игрового поля:
 pygame.display.set_caption('Змейка')
-
-# Настройка времени:
 clock = pygame.time.Clock()
 
 
-# Класс для яблока:
 class Apple:
+    """Класс для яблока."""
+
     def __init__(self, snake_positions):
         self.position = self.randomize_position(snake_positions)
         self.color = APPLE_COLOR
@@ -57,8 +48,9 @@ class Apple:
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
-# Класс для змейки:
 class Snake:
+    """Класс для змейки."""
+
     def __init__(self):
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
@@ -121,8 +113,8 @@ class Snake:
             self.next_direction = None
 
 
-# Загрузка рекорда из файла
 def load_highscore():
+    """Загрузка рекорда из файла."""
     try:
         with open("highscore.txt", "r") as file:
             return int(file.read())
@@ -130,17 +122,15 @@ def load_highscore():
         return 0
 
 
-# Сохранение рекорда в файл
 def save_highscore(score):
+    """Сохранение рекорда в файл."""
     with open("highscore.txt", "w") as file:
         file.write(str(score))
 
 
-# Главная функция игры:
 def main():
-    # Инициализация PyGame:
+    """Главная функция игры."""
     pygame.init()
-
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -151,34 +141,26 @@ def main():
         clock.tick(SPEED)
         screen.fill(BOARD_BACKGROUND_COLOR)
 
-        # Обработка клавиш
         snake.handle_keys()
         snake.update_direction()
-
-        # Движение змейки
         snake.move()
 
-        # Проверка, съела ли змейка яблоко
         if snake.get_head_position() == apple.position:
             snake.length += 1
-            apple = Apple(snake.positions)  # Генерация нового яблока
+            apple = Apple(snake.positions)
             score += 1
             if score > high_score:
                 high_score = score
                 save_highscore(high_score)
 
-        # Проверка на столкновение с собой
         if len(snake.positions) != len(set(snake.positions)):
             snake.reset()
-            score = 0  # Сбрасываем счёт при столкновении с собой
+            score = 0
 
-        # Отрисовка всех объектов
         snake.draw()
         apple.draw()
 
-        # Обновляем заголовок с текущим счётом и рекордом
-        pygame.display.set_caption(f'Змейка - Счёт: {score}  Рекорд: {high_score}')
-
+        pygame.display.set_caption(f'Змейка - Счёт: {score} Рекорд: {high_score}')
         pygame.display.update()
 
 
