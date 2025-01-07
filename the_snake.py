@@ -72,7 +72,7 @@ class Snake:
         x, y = self.direction
         new_head = (
             ((cur[0] + (x * GRID_SIZE)) % SCREEN_WIDTH),
-            (cur[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT
+            ((cur[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT),
         )
         self.positions.insert(0, new_head)
 
