@@ -21,13 +21,26 @@ BORDER_COLOR = (93, 216, 228)
 
 
 class GameObject:
+    """Представляет игровой объект на экране."""
     def __init__(self, position=(0, 0), body_color=(255, 0, 0),
                  border_color=BORDER_COLOR):
+        """
+        Инициализирует игровой объект.
+
+        :param position: координаты объекта
+        :param body_color: цвет объекта
+        :param border_color: цвет границы объекта
+        """
         self.position = position
         self.body_color = body_color
         self.border_color = border_color
 
     def draw(self, surface):
+        """
+        Отображает объект на экране.
+
+        :param surface: поверхность, на которой будет отображен объект
+        """
         pygame.draw.rect(
             surface,
             self.body_color,
@@ -52,7 +65,13 @@ class GameObject:
 
 
 class Apple(GameObject):
+    """Представляет яблоко на поле."""
     def __init__(self, position=None):
+        """
+        Инициализирует яблоко на поле.
+
+        :param position: координаты яблока
+        """
         if position is None:
             position = (
                 randint(0, GRID_WIDTH - 1),
@@ -61,6 +80,7 @@ class Apple(GameObject):
         super().__init__(position, body_color=APPLE_COLOR)
 
     def randomize_position(self):
+        """Меняет позицию яблока на случайную."""
         self.position = (
             randint(0, GRID_WIDTH - 1),
             randint(0, GRID_HEIGHT - 1)
@@ -68,16 +88,26 @@ class Apple(GameObject):
 
 
 class Snake(GameObject):
+    """Представляет змею на поле."""
     def __init__(self):
+        """
+        Инициализирует змею с начальной позицией и направлением.
+        """
         self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
         self.direction = RIGHT
         super().__init__(self.positions[0], body_color=SNAKE_COLOR)
         self.score = 0
 
     def get_head_position(self):
+        """Возвращает координаты головы змеи."""
         return self.positions[0]
 
     def move(self):
+        """
+        Перемещает змею по направлению.
+
+        :return: True, движение успешно, False, змея столкнулась с собой
+        """
         head_x, head_y = self.get_head_position()
         new_head = (head_x + self.direction[0], head_y + self.direction[1])
 
@@ -99,17 +129,22 @@ class Snake(GameObject):
         return True
 
     def grow(self):
+        """Увеличивает змею на 1 сегмент."""
         self.positions.append(self.positions[-1])
         self.score += 1
 
     def reset(self):
-        """Сбрасываем змейку в начальную позицию."""
+        """Сбрасывает змею в начальную позицию."""
         self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
         self.direction = RIGHT
         self.score = 0
 
     def update_direction(self, new_direction):
-        """Обновляем направление движения змеи."""
+        """
+        Обновляет направление движения змеи.
+
+        :param new_direction: новое направление
+        """
         if new_direction == UP and self.direction != DOWN:
             self.direction = UP
         elif new_direction == DOWN and self.direction != UP:
@@ -120,6 +155,7 @@ class Snake(GameObject):
             self.direction = RIGHT
 
     def draw(self, surface):
+        """Отображает змею на экране."""
         for pos in self.positions:
             pygame.draw.rect(
                 surface,
@@ -140,7 +176,7 @@ class Snake(GameObject):
                     GRID_SIZE,
                     GRID_SIZE,
                 ),
-                2
+                2  # Толщина обводки
             )
 
 
@@ -150,7 +186,11 @@ clock = pygame.time.Clock()
 
 
 def handle_keys(snake):
-    """Обрабатываем ввод с клавиатуры для управления змеёй."""
+    """
+    Обрабатывает ввод с клавиатуры для управления змеёй.
+
+    :param snake: объект змеи
+    """
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -167,7 +207,11 @@ def handle_keys(snake):
 
 
 def save_high_score(score):
-    """Сохраняем рекорд в файл."""
+    """
+    Сохраняет рекорд в файл.
+
+    :param score: текущий рекорд
+    """
     try:
         with open("highscore.txt", "w") as file:
             file.write(str(score))
@@ -176,7 +220,11 @@ def save_high_score(score):
 
 
 def load_high_score():
-    """Загружаем рекорд из файла."""
+    """
+    Загружает рекорд из файла.
+
+    :return: рекорд из файла или 0, если файл не найден
+    """
     try:
         with open("highscore.txt", "r") as file:
             return int(file.read())
@@ -186,6 +234,9 @@ def load_high_score():
 
 # Основная игра
 def main():
+    """
+    Основной цикл игры, где происходят все действия игры.
+    """
     snake = Snake()
     apple = Apple()
     high_score = load_high_score()
@@ -210,7 +261,7 @@ def main():
         if snake.score > high_score:
             high_score = snake.score
 
-        # Названия окна
+        # Обновление названия окна
         pygame.display.set_caption(
             f"Змейка - Счёт: {snake.score} Рекорд: {high_score}"
         )
