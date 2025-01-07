@@ -32,12 +32,10 @@ class Apple:
     """Класс для яблока."""
 
     def __init__(self, snake_positions):
-        """Инициализация яблока."""
         self.position = self.randomize_position(snake_positions)
         self.color = APPLE_COLOR
 
     def randomize_position(self, snake_positions):
-        """Генерация случайной позиции для яблока, которая не совпадает с позицией змейки."""
         while True:
             x = randint(0, GRID_WIDTH - 1) * GRID_SIZE
             y = randint(0, GRID_HEIGHT - 1) * GRID_SIZE
@@ -45,7 +43,6 @@ class Apple:
                 return (x, y)
 
     def draw(self):
-        """Отрисовка яблока на экране."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -55,7 +52,6 @@ class Snake:
     """Класс для змейки."""
 
     def __init__(self):
-        """Инициализация змейки."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -63,11 +59,9 @@ class Snake:
         self.last = None
 
     def get_head_position(self):
-        """Получение позиции головы змейки."""
         return self.positions[0]
 
     def move(self):
-        """Движение змейки."""
         cur = self.get_head_position()
         x, y = self.direction
         new_head = (
@@ -80,7 +74,6 @@ class Snake:
             self.last = self.positions.pop()
 
     def reset(self):
-        """Сброс змейки в начальное состояние."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -88,7 +81,6 @@ class Snake:
         self.last = None
 
     def draw(self):
-        """Отрисовка змейки на экране."""
         for position in self.positions[:-1]:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, SNAKE_COLOR, rect)
@@ -103,7 +95,6 @@ class Snake:
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def handle_keys(self):
-        """Обработка нажатий клавиш для управления движением змейки."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -119,14 +110,12 @@ class Snake:
                     self.next_direction = RIGHT
 
     def update_direction(self):
-        """Обновление направления змейки на основе пользовательского ввода."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
 
 def load_highscore():
-    """Загрузка рекорда из файла."""
     try:
         with open("highscore.txt", "r") as file:
             return int(file.read())
@@ -135,13 +124,11 @@ def load_highscore():
 
 
 def save_highscore(score):
-    """Сохранение рекорда в файл."""
     with open("highscore.txt", "w") as file:
         file.write(str(score))
 
 
 def main():
-    """Главная функция игры."""
     pygame.init()
     snake = Snake()
     apple = Apple(snake.positions)
