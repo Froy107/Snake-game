@@ -22,6 +22,7 @@ BORDER_COLOR = (93, 216, 228)
 
 class GameObject:
     """Представляет игровой объект на экране."""
+
     def __init__(self, position=(0, 0), body_color=(255, 0, 0),
                  border_color=BORDER_COLOR):
         """
@@ -66,6 +67,7 @@ class GameObject:
 
 class Apple(GameObject):
     """Представляет яблоко на поле."""
+
     def __init__(self, position=None):
         """
         Инициализирует яблоко на поле.
@@ -89,6 +91,7 @@ class Apple(GameObject):
 
 class Snake(GameObject):
     """Представляет змею на поле."""
+
     def __init__(self):
         """
         Инициализирует змею с начальной позицией и направлением.
@@ -106,7 +109,7 @@ class Snake(GameObject):
         """
         Перемещает змею по направлению.
 
-        :return: True, движение успешно, False, змея столкнулась с собой
+        :return: True,если движение успешно,False,если змея столкнулась с собой
         """
         head_x, head_y = self.get_head_position()
         new_head = (head_x + self.direction[0], head_y + self.direction[1])
