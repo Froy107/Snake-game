@@ -93,9 +93,7 @@ class Snake(GameObject):
     """Представляет змею на поле."""
 
     def __init__(self):
-        """
-        Инициализирует змею с начальной позицией и направлением.
-        """
+        """Инициализирует змею с начальной позицией и направлением."""
         self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
         self.direction = RIGHT
         super().__init__(self.positions[0], body_color=SNAKE_COLOR)
@@ -237,9 +235,7 @@ def load_high_score():
 
 # Основная игра
 def main():
-    """
-    Основной цикл игры, где происходят все действия игры.
-    """
+    """Основной цикл игры, где происходят все действия игры."""
     snake = Snake()
     apple = Apple()
     high_score = load_high_score()
