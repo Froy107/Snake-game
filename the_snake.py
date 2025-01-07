@@ -24,7 +24,7 @@ SPEED = 10
 
 # Настройка игрового окна
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-pygame.display.set_caption('Змейка')
+pygame.display.set_caption("Змейка")
 clock = pygame.time.Clock()
 
 
@@ -37,7 +37,7 @@ class Apple:
         self.color = APPLE_COLOR
 
     def randomize_position(self, snake_positions):
-        """Генерация случайной позиции для яблока, которая не совпадает с позицией змейки."""
+        """Генерация случайной позиции для яблока."""
         while True:
             x = randint(0, GRID_WIDTH - 1) * GRID_SIZE
             y = randint(0, GRID_HEIGHT - 1) * GRID_SIZE
@@ -172,11 +172,11 @@ def main():
         snake.draw()
         apple.draw()
 
-        pygame.display.set_caption(
-            f'Змейка - Счёт: {score} Рекорд: {high_score}'
-        )
+        caption = f"Змейка - Счёт: {score} Рекорд: {high_score}"
+        pygame.display.set_caption(caption)
+
         pygame.display.update()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
